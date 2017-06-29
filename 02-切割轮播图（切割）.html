@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    
+    * {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    
+    .box {
+      width: 560px;
+      height: 380px;
+      border: 1px solid #000;
+      margin: 100px auto;
+      position: relative;
+    }
+    
+    .box ul {
+      width: 20%;
+      height: 100%;
+      position: relative;
+      
+      /*perspective: 1000px;*/
+      transform-style: preserve-3d;
+      float: left;
+    }
+    
+    /*修改第二个ul下面的li的background-position*/
+    .box ul:nth-child(2) li {
+      background-position: -112px 0;
+    }
+    
+    .box ul:nth-child(3) li {
+      background-position: -224px 0;
+    }
+    
+    .box ul:nth-child(4) li {
+      background-position: -336px 0;
+    }
+    
+    .box ul:nth-child(5) li {
+      background-position: -448px 0;
+    }
+    
+    .box li {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+    }
+    
+    .box li:nth-child(1) {
+      background: url(images/01.jpg) no-repeat;
+      transform: translateZ(190px);
+    }
+    
+    .box li:nth-child(2) {
+      background: url(images/02.jpg) no-repeat;
+      transform: rotateX(90deg) translateZ(190px);
+    }
+    
+    .box li:nth-child(3) {
+      background: url(images/03.jpg) no-repeat;
+      transform: rotateX(180deg) translateZ(190px);
+    }
+    
+    .box li:nth-child(4) {
+      background: url(images/04.jpg) no-repeat;
+      transform: rotateX(270deg) translateZ(190px);
+    }
+    
+    .arr-left,
+    .arr-right {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      background-color: #f92;
+      top: 50%;
+      transform: translateY(-50%);
+      border-radius: 10px;
+      text-align: center;
+      font: 700 24px/100px "宋体";
+      color: #fff;
+      text-decoration: none;
+    }
+    
+    .arr-left {
+      left: -100px;
+    }
+    
+    .arr-right {
+      right: -100px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="box">
+  
+  <ul>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+  </ul>
+  <ul>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+  </ul>
+  <ul>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+  </ul>
+  <ul>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+  </ul>
+  <ul>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+  </ul>
+  
+  
+  <a href="javascript:void(0);" class="arr-left">上一页</a>
+  <a href="javascript:void(0);" class="arr-right">下一页</a>
+</div>
+
+
+<script>
+  
+  var arrLeft = document.querySelector(".arr-left");
+  var arrRight = document.querySelector(".arr-right");
+  
+  var uls = document.querySelectorAll(".box>ul");
+  
+  
+  //1. 定义一个节流阀  true
+  //2. 判断是否打开，
+  //3. 如果打开，就执行，并且关闭
+  //4. 执行完毕之后打开
+  
+  var flag = true;
+  
+  
+  
+  //什么时候打开节流阀？
+  var index = 0;
+  arrRight.onclick = function () {
+    if(flag){
+      flag = false;
+      
+      //让ul沿着X转-90deg
+      index--;
+      for (var i = 0; i < uls.length; i++) {
+        uls[i].style.transition = "all .5s " + 0.1 * i + "s";
+        uls[i].style.transform = "rotateX(" + 90 * index + "deg)";
+      }
+    }
+  }
+  
+  
+  uls[uls.length-1].addEventListener("transitionend", function () {
+    flag = true;
+  })
+  
+  
+  
+  arrLeft.onclick = function () {
+    if(flag) {
+      flag = false;
+      
+      //让ul沿着X转-90deg
+      index++;
+      for (var i = 0; i < uls.length; i++) {
+        uls[i].style.transition = "all .5s " + 0.1 * i + "s";
+        uls[i].style.transform = "rotateX(" + 90 * index + "deg)";
+      }
+    }
+  }
+</script>
+
+
+</body>
+</html>
